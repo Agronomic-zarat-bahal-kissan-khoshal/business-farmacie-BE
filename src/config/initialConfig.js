@@ -22,11 +22,6 @@ if (nodeEnv === "production" && !process.env.DOMAIN) throw new Error("Missing DO
 if (!process.env.EMAIL) throw new Error("Missing EMAIL in environment");
 if (!process.env.EMAIL_PASS) throw new Error("Missing EMAIL_PASS in environment");
 
-// For oAuth login
-// if (!process.env.GOOGLE_CLIENT_ID) throw new Error("Missing GOOGLE_CLIENT_ID in environment");
-// if (!process.env.GOOGLE_CLIENT_SECRET) throw new Error("Missing GOOGLE_CLIENT_SECRET in environment env file");
-// if (!process.env.FACEBOOK_CLIENT_ID) throw new Error("Missing FACEBOOK_CLIENT_ID in environment");
-// if (!process.env.FACEBOOK_CLIENT_SECRET) throw new Error("Missing FACEBOOK_CLIENT_SECRET in environment env file");
 
 // ==========================================================
 //                     Configuration Variables
@@ -40,12 +35,6 @@ const domain = nodeEnv === "local" ? `http://${getIPAddress()}:${port}` : proces
 // For sending mails
 const serviceEmail = process.env.EMAIL;
 const serviceEmailPass = process.env.EMAIL_PASS;
-
-// For oAuth login
-// const googleClientId = process.env.GOOGLE_CLIENT_ID;
-// const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
-// const facebookClientId = process.env.FACEBOOK_CLIENT_ID;
-// const facebookClientSecret = process.env.FACEBOOK_CLIENT_SECRET;
 
 
 
