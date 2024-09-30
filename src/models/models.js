@@ -1,1 +1,2 @@
-import "./user/user.model.js";
+import "./user/companyUser.model.js";
+import "./user/company.model.js";

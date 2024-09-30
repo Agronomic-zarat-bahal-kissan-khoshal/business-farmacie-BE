@@ -5,10 +5,10 @@ import { transporter } from "../config/emailConfig.js";
 export const sendOTPEmail = async (email, otp) => {
     try {
         const mailOptions = {
-            from: 'agoradance.app@gmail.com',
+            from: 'agronomics@gmail.com',
             to: email,
-            subject: 'Agora Dance - OTP Verification',
-            text: `Your OTP for Agora Dance is ${otp}.`
+            subject: 'Agronomics email - OTP Verification',
+            text: `Your OTP for Agronomics is ${otp}.`
         };
 
         await transporter.sendMail(mailOptions);

@@ -9,7 +9,7 @@ import { Sequelize } from "sequelize";
 // ========================================
 //         CODE IMPORTS
 // ========================================
-import User from "../../models/user/user.model.js";
+import CompanyUser from "../../models/user/companyUser.model.js";
 import { bodyReqFields } from "../../utils/requiredFields.js"
 import { convertToLowercase, validateEmail } from '../../utils/utils.js';
 import { comparePassword, hashPassword, validatePassword } from "../../utils/passwordUtils.js";
@@ -23,11 +23,9 @@ import {
   successOk,
   successOkWithData,
   UnauthorizedError,
-  sequlizeValidationError
+  sequlizeValidationError,
+  notFound
 } from "../../utils/responses.js";
-
-// ========================= nodemailer configuration ===========================
-
 
 
 
@@ -36,33 +34,66 @@ import {
 //            CONTOLLERS
 // ========================================
 
+export async function getProfile(req, res) {
+  try {
+    const profile = await CompanyUser.findByPk(req.userUid, { attributes: ["uuid", 'company_name', 'email', 'contact', 'ntn', 'company_fk', "verified"] });
+    if (!profile) return UnauthorizedError(res, "Invalid token");
+    return successOkWithData(res, "Profile fetched successfully", profile);
+  } catch (error) {
+    return catchError(res, error);
+  }
+}
+
+// ========================= updateProfile ===========================
+
+export async function updateProfile(req, res) {
+  try {
+    const { companyName, contact, ntn } = req.body;
+    let fieldsToUpdate = {};
+    if (companyName) fieldsToUpdate.company_name = companyName;
+    if (contact) fieldsToUpdate.contact = contact;
+    if (ntn) fieldsToUpdate.ntn = ntn;
+    await CompanyUser.update(fieldsToUpdate, {
+      where: { uuid: req.userUid }
+    });
+    return successOk(res, "Profile updated successfully.");
+  } catch (error) {
+    return catchError(res, error);
+  }
+}
+
+
+// ========================================
+//            AUTHENTICATIONS
+// ========================================
+
 export async function registerUser(req, res) {
   try {
     const reqBodyFields = bodyReqFields(req, res, [
-      "firstName",
-      "lastName",
-      "gender",
+      "companyName",
       "email",
+      "contact",
+      "ntn",
       "password",
       "confirmPassword",
     ]);
     if (reqBodyFields.error) return reqBodyFields.response;
 
-    const excludedFields = ['password', 'confirmPassword', 'email'];
+    const excludedFields = ['password', 'confirmPassword', 'email', 'ntn', 'contact'];
     const requiredData = convertToLowercase(req.body, excludedFields);
     const {
-      firstName, lastName, age, gender, email, password, confirmPassword, fcmToken
+      companyName, email, contact, ntn, password, confirmPassword
     } = requiredData;
 
 
     // Check if a user with the given email already exists
-    let user = await User.findOne({
+    let user = await CompanyUser.findOne({
       where: {
         email: email
       }
     });
 
-    if (user) return validationError(res, "", "User already exists");
+    if (user) return validationError(res, "", "This email already registered against company");
 
     const invalidEmail = validateEmail(email)
     if (invalidEmail) return validationError(res, invalidEmail)
@@ -71,18 +102,17 @@ export async function registerUser(req, res) {
     if (invalidPassword) return validationError(res, invalidPassword)
 
 
-    const userData = {
-      first_name: firstName,
-      last_name: lastName,
-      age,
-      gender,
+    const companyData = {
+      company_name: companyName,
+      contact,
+      ntn,
       email,
       password: await hashPassword(password)
     }
 
-    await User.create(userData)
+    await CompanyUser.create(companyData)
 
-    return created(res, "User created successfully")
+    return created(res, "Profile created successfully, we'll contact you soon!");
   } catch (error) {
     if (error instanceof Sequelize.ValidationError) return sequlizeValidationError(res, error);
     else return catchError(res, error);
@@ -99,7 +129,7 @@ export async function loginUser(req, res) {
     const { email, password } = req.body;
 
     // Check if a user with the given email exists
-    const user = await User.findOne({ where: { email: email } });
+    const user = await CompanyUser.findOne({ where: { email: email } });
     if (!user) {
       return validationError(res, "Invalid email or password")
     }
@@ -150,7 +180,7 @@ export async function updatePassword(req, res) {
     const { oldPassword, newPassword, confirmPassword } = req.body;
 
     // Check if a user exists
-    const user = await User.findOne({ where: { uuid: req.userUid } });
+    const user = await CompanyUser.findOne({ where: { uuid: req.userUid } });
     if (!user) {
       return UnauthorizedError(res, "Invalid token")
     }
@@ -171,7 +201,7 @@ export async function updatePassword(req, res) {
     // Hash the new password
     const hashedPassword = await hashPassword(newPassword);
     // // Update user's password in the database
-    await User.update({ password: hashedPassword }, {
+    await CompanyUser.update({ password: hashedPassword }, {
       where: { uuid: req.userUid }
     });
 
@@ -190,7 +220,7 @@ export async function forgotPassword(req, res) {
 
     const { email } = req.body;
     // Check if a user with the given email exists
-    const user = await User.findOne({ where: { email: email } });
+    const user = await CompanyUser.findOne({ where: { email: email } });
     if (!user) {
       return validationError(res, "This email is not registered.", "email")
     }
@@ -209,7 +239,7 @@ export async function forgotPassword(req, res) {
         otp_count: 0
       }
       // Save OTP in the database
-      await User.update(otpData, {
+      await CompanyUser.update(otpData, {
         where: { email },
       });
       req.user = { email }
@@ -233,13 +263,13 @@ export async function verifyOtp(req, res) {
     const { email, otp } = req.body;
 
     // Check if a user with the given email exists
-    const user = await User.findOne({ where: { email: email } });
+    const user = await CompanyUser.findOne({ where: { email: email } });
     if (!user) return frontError(res, "This email is not registered.", "email")
     if (user.otp_count >= 3) return validationError(res, "Maximum OTP attempts reached. Please regenerate OTP.");
 
     // Compare OTP if does'nt match increment otp_count
     if (user.otp !== parseInt(otp, 10)) {
-      await User.update(
+      await CompanyUser.update(
         {
           otp_count: Sequelize.literal('otp_count + 1'),
         },
@@ -249,7 +279,7 @@ export async function verifyOtp(req, res) {
     }
 
     // OTP matched, set can_change_password to true
-    await User.update(
+    await CompanyUser.update(
       { can_change_password: true },
       { where: { email } }
     );
@@ -271,7 +301,7 @@ export async function setNewPassword(req, res) {
     const { newPassword, confirmPassword, email } = req.body;
 
     // Check if a user with the given email exists
-    const user = await User.findOne({ where: { email: email } });
+    const user = await CompanyUser.findOne({ where: { email: email } });
     if (!user) {
       return frontError(res, "user not found")
     }
@@ -289,7 +319,7 @@ export async function setNewPassword(req, res) {
     const hashedPassword = await hashPassword(newPassword);
 
     // Update user's password in the database
-    await User.update({ password: hashedPassword, can_change_password: false, otp: null, otp_count: 0 }, {
+    await CompanyUser.update({ password: hashedPassword, can_change_password: false, otp: null, otp_count: 0 }, {
       where: { email }
     });
 
