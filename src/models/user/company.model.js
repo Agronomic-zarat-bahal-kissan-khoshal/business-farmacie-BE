@@ -6,7 +6,9 @@ const Company = sequelize.define('company', {
     company: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: {
+            msg: 'The compnay name must be unique. This name is already in use.'
+        },
         primaryKey: true,
     },
     uuid: {

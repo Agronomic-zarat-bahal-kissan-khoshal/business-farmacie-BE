@@ -8,6 +8,7 @@ const router = express.Router();
 router.delete("/", verifyToken, companyCtrl.deleteCompanyUser);
 
 
+// ADD THE IS ADMIN MIDDLEWARE FOR DELETE
 router.route("/global-list")
     .get(verifyToken, companyCtrl.getGlobalListCompanies)
     .post(verifyToken, companyCtrl.addCompniestoGlobalList)

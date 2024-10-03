@@ -6,7 +6,9 @@ const Ingredient = sequelize.define('ingredient', {
     ingredient_name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: {
+            msg: 'The ingredient name must be unique. This name is already in use.'
+        },
         primaryKey: true,
     },
     uuid: {

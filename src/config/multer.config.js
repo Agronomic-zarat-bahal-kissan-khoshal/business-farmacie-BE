@@ -30,6 +30,7 @@ const storage = diskStorage({
 
 // Multer instance for handling file uploads
 const upload = multer({
+
     storage,
     limits: { fileSize: 10 * 1024 * 1024 }, // Limit file size to 10MB
     fileFilter: (req, file, cb) => {
@@ -44,4 +45,4 @@ const upload = multer({
     }
 });
 
-export { upload };
+export default upload;

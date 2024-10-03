@@ -34,7 +34,12 @@ const Product = sequelize.define('product', {
         }
     },
     package_weight: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
+        validate: {
+            isInt: {
+                msg: "packageWeight must be an integer."
+            },
+        }
     },
     weight_unit: {
         type: DataTypes.STRING,
@@ -43,13 +48,23 @@ const Product = sequelize.define('product', {
         type: DataTypes.STRING,
     },
     area_covered: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
+        validate: {
+            isInt: {
+                msg: "areaCovered must be an integer."
+            },
+        }
     },
     disease_purpose: {
         type: DataTypes.STRING,
     },
     price: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
+        validate: {
+            isInt: {
+                msg: "price must be an integer."
+            },
+        }
     },
     description: {
         type: DataTypes.STRING,
@@ -71,7 +86,7 @@ export default Product;
 // ==========================================================
 //                     Relations
 // ==========================================================
-import ActiveIngredient from './activeIngredient.js';
+import ActiveIngredient from './activeIngredient.model.js';
 import ProductImage from './productImage.model.js';
 import Company from '../user/company.model.js';
 

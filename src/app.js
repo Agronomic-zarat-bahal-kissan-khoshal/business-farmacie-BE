@@ -21,8 +21,10 @@ import { connectDB } from "./config/dbConfig.js";
 import { getIPAddress } from "./utils/utils.js";
 import "./models/models.js";
 import authRoutes from "./routes/auth/auth.route.js";
-import companyRoutes from "./routes/auth/company.route.js";
 import productRoutes from "./routes/product/product.route.js";
+// Internal dashboard
+import companyRoutes from "./routes/auth/company.route.js";
+import ingredientRoutes from "./routes/product/ingredient.route.js"
 
 
 // =========================================
@@ -76,8 +78,11 @@ app.get('/', (req, res) => {
 
 // other routes
 app.use("/api/auth", authRoutes);
-app.use("/api/company", companyRoutes);
 app.use("/api/product", productRoutes);
+
+// Internal dashboard
+app.use("/api/company", companyRoutes);
+app.use("/api/ingredient", ingredientRoutes)
 
 
 

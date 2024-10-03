@@ -1,6 +1,14 @@
 import os from 'os';
 
+// ============================ getRelativePath =================================
 
+// Helper function to get the relative path from the static base path
+const getRelativePath = (fullPath) => {
+    const normalizedPath = fullPath.replace(/\\/g, '/');
+    const index = normalizedPath.indexOf('/static');
+    if (index === -1) return '';
+    return normalizedPath.substring(index);
+}
 
 // =========================== convertToLowercase ===============================
 
@@ -48,4 +56,4 @@ function getIPAddress() {
 }
 
 
-export { convertToLowercase, validateEmail, getIPAddress };
+export { convertToLowercase, validateEmail, getIPAddress, getRelativePath };

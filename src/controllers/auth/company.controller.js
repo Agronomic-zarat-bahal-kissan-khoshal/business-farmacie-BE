@@ -11,7 +11,7 @@ import { ARRAY, Op, Sequelize } from "sequelize";
 // ========================================
 import Company from "../../models/user/company.model.js";
 import CompanyUser from "../../models/user/companyUser.model.js";
-import { catchError, conflictError, created, frontError, successOk, successOkWithData, validationError } from "../../utils/responses.js";
+import { catchError, conflictError, created, frontError, sequlizeValidationError, successOk, successOkWithData, validationError } from "../../utils/responses.js";
 import { bodyReqFields, queryReqFields } from "../../utils/requiredFields.js";
 import { convertToLowercase } from "../../utils/utils.js";
 
@@ -53,7 +53,7 @@ export async function addCompniestoGlobalList(req, res) {
 
 export async function getGlobalListCompanies(req, res) {
     try {
-        const companies = await Company.findAll();
+        const companies = await Company.findAll({ attributes: ["company"] });
         const count = companies.length;
         return successOkWithData(res, "Companies fetched successfully", { companies, count });
     } catch (error) {
@@ -65,14 +65,14 @@ export async function getGlobalListCompanies(req, res) {
 // ================= deleteCompany =======================
 export async function deleteGlobalListCompanies(req, res) {
     try {
-        const reqBodyFields = bodyReqFields(req, res, ["company"]);
-        if (reqBodyFields.error) return reqBodyFields.response;
-        const requiredData = convertToLowercase(req.body);
+        const reqQueryFields = queryReqFields(req, res, ["company"]);
+        if (reqQueryFields.error) return reqQueryFields.response;
+        const requiredData = convertToLowercase(req.query);
         const { company } = requiredData;
 
 
         await Company.destroy({ where: { company } });
-        return created(res, "Company deleted successfully");
+        return successOk(res, "Company deleted successfully");
     } catch (error) {
         console.log("error while deleting the company", error);
         return catchError(res, error.message);
@@ -89,12 +89,11 @@ export async function updateGlobalListCompanies(req, res) {
 
         const companyExists = await Company.findByPk(company);
         if (!companyExists) return validationError(res, "Company not found in company global list");
-        companyExists.company = updatedCompany;
-        await companyExists.save();
         await Company.update({ company: updatedCompany }, { where: { company } });
         return successOk(res, "Company updated successfully");
     } catch (error) {
         console.log("error while updating the company", error);
+        if (error.name === "SequelizeUniqueConstraintError") return sequlizeValidationError(res, error);
         return catchError(res, error.message);
     }
 }
