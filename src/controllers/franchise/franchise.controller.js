@@ -3,6 +3,7 @@ import FranchiseManager from "../../models/franchise/fanchiseManager.model.js";
 import { catchError, catchErrorWithSequelize, conflictError, frontError, notFound, successOk, successOkWithData, validationError } from "../../utils/responses.js";
 import { bodyReqFields, queryReqFields } from "../../utils/requiredFields.js";
 import { check31DaysExpiry, convertToLowercase } from "../../utils/utils.js";
+import { Op } from "sequelize";
 
 
 // ================================================================
@@ -104,6 +105,37 @@ export async function getFranchises(req, res) {
                 franchise.remainingDays = remainingDays;
             } else franchise.remainingDays = 0;
         });
+        return successOkWithData(res, "Franchises fetched successfully", franchises);
+    } catch (error) {
+        return catchErrorWithSequelize(res, error);
+    }
+}
+
+
+// ========================== getInactiveFranchises ================================
+
+export async function getInactiveFranchises(req, res) {
+    try {
+        const today = new Date();
+        let previous31thDay = new Date(today);
+        previous31thDay.setDate(today.getDate() - 31);
+
+        let franchises = await Franchise.findAll({
+            attributes: ['uuid', 'address', 'province', 'district', 'tehsil', 'active', 'active_date'],
+            include: [
+                {
+                    required: false,
+                    model: FranchiseManager,
+                    as: 'franchise_manager',
+                    attributes: ['uuid', 'full_name']
+                }
+            ],
+            where: {
+                company_fk: req.user.company_fk,
+                [Op.or]: [{ active: false }, { active_date: { [Op.lt]: previous31thDay } }]
+            }
+        });
+
         return successOkWithData(res, "Franchises fetched successfully", franchises);
     } catch (error) {
         return catchErrorWithSequelize(res, error);

@@ -12,4 +12,5 @@ router.route("/")
 
 router.get('/all', verifyToken, franchiseCtrl.getFranchises)
 router.get('/stats', verifyToken, franchiseCtrl.franchiseStats)
+router.get('/inactive', verifyToken, franchiseCtrl.getInactiveFranchises)
 export default router;

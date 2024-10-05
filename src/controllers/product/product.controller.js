@@ -272,6 +272,7 @@ export async function deleteProduct(req, res) {
 }
 
 // ========================== deleteProductImg ================================
+
 export async function deleteProductImg(req, res) {
     try {
         const queryFieldsReq = queryReqFields(req, res, ["imgUid"])
@@ -283,6 +284,35 @@ export async function deleteProductImg(req, res) {
 
     } catch (error) {
         return catchError(res, error)
+    }
+}
+
+
+// ========================== productStats ================================
+
+export async function productStats(req, res) {
+    try {
+        let fertilizerCount = await Product.count({
+            where: {
+                company_fk: req.user.company_fk,
+                category: 'fertilizer',
+            }
+        });
+        let pesticideCount = await Product.count({
+            where: {
+                company_fk: req.user.company_fk,
+                category: 'pesticide',
+            }
+        });
+        let nutrientsCount = await Product.count({
+            where: {
+                company_fk: req.user.company_fk,
+                category: 'nutrients',
+            }
+        });
+        return successOkWithData(res, "Products fetched successfully", { fertilizerCount, pesticideCount, nutrientsCount });
+    } catch (error) {
+        return catchError(res, error);
     }
 }
 

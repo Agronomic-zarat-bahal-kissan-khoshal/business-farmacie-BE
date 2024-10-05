@@ -12,6 +12,7 @@ router.route("/")
     .delete(verifyToken, productCtrl.deleteProduct);
 
 router.get("/all", verifyToken, productCtrl.getProducts);
+router.get("/stats", verifyToken, productCtrl.productStats);
 router.delete("/image", verifyToken, productCtrl.deleteProductImg)
 
 
