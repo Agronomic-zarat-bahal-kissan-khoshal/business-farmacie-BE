@@ -26,7 +26,8 @@ import productRoutes from "./routes/product/product.route.js";
 import companyRoutes from "./routes/auth/company.route.js";
 import ingredientRoutes from "./routes/product/ingredient.route.js"
 import seedRoutes from "./routes/seed/seed.route.js"
-import franchiseRoutes from "./routes/franchise/franchiseManager.route.js"
+import franchiseManagerRoutes from "./routes/franchise/franchiseManager.route.js"
+import franchiseRoutes from "./routes/franchise/franchise.route.js"
 
 
 // =========================================
@@ -82,8 +83,8 @@ app.get('/', (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/seed", seedRoutes);
-// app.use("/api/franchise", ingredientRoutes)
-app.use("/api/franchise/manager", franchiseRoutes)
+app.use("/api/franchise", franchiseRoutes)
+app.use("/api/franchise/manager", franchiseManagerRoutes)
 
 // Internal dashboard
 app.use("/api/company", companyRoutes);

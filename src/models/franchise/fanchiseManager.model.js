@@ -29,7 +29,7 @@ const FranchiseManager = sequelize.define('user', {
                 msg: "Invalid phone number"
             },
             max: {
-                args: [3599999999],
+                args: [3799999999],
                 msg: "Invalid phone number"
             }
         }

@@ -12,12 +12,22 @@ const Franchise = sequelize.define('franchise', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    manager_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     franchise_contact: {
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT,
+        unique: true,
+        validate: {
+            isInt: {
+                msg: "Phone number contains numbers only."
+            },
+            min: {
+                args: [3000000000],
+                msg: "Invalid phone number, starts with 0"
+            },
+            max: {
+                args: [3799999999],
+                msg: "Invalid phone number, start with 0"
+            }
+        }
     },
     address: {
         type: DataTypes.STRING,
@@ -35,10 +45,6 @@ const Franchise = sequelize.define('franchise', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    active: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-    },
     is_company_franchise: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
@@ -50,7 +56,20 @@ const Franchise = sequelize.define('franchise', {
     user_fk: {
         type: DataTypes.UUID,
         allowNull: true,            // In case the user deleted by the franchise
-    }
+    },
+    active: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
+    active_date: {
+        type: DataTypes.DATE,
+    },
+    txn_ref_no: {
+        type: DataTypes.STRING,
+    },
+    response_code: {
+        type: DataTypes.STRING,
+    },
 });
 
 export default Franchise;
