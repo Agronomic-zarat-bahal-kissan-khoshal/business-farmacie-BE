@@ -2,6 +2,8 @@
 // ===================== success responses ========================
 // ================================================================
 
+import { Sequelize } from "sequelize";
+
 const successOk = (res, message) => {
     return res.status(200).send({
         success: true,
@@ -43,6 +45,18 @@ const createdWithData = (res, message, data) => {
 // ================================================================
 
 // ========================= catchError ===========================
+const catchErrorWithSequelize = (res, error) => {
+    if (error instanceof Sequelize.ValidationError) return sequelizeValidationError(res, error);
+    if (error.errors && error.errors[0].errors instanceof Sequelize.ValidationError) return frontError(res, error.errors[0].message)
+    if (error.name === 'SequelizeForeignKeyConstraintError') return frontError(res, "Fogreign key voilates. Making a relation with value that not exit.", error.parent?.constraint);
+    if (error.name === 'SequelizeDatabaseError') return frontError(res, error.message, "database");
+
+    return res.status(500).send({
+        message: error.message || "Internal server error",
+    });
+};
+
+// ========================= catchError ===========================
 const catchError = (res, error) => {
     return res.status(500).send({
         message: error.message || "Internal server error",
@@ -60,9 +74,9 @@ const validationError = (res, message, field) => {
     });
 };
 
-// ======================== sequlizeValidationError =======================
+// ======================== sequelizeValidationError =======================
 
-const sequlizeValidationError = (res, error) => {
+const sequelizeValidationError = (res, error) => {
     const errorMessage = error.errors[0].message;
     const key = error.errors[0].path
     return validationError(res, errorMessage, key);
@@ -136,11 +150,12 @@ export {
     createdWithData,
     catchError,
     validationError,
-    sequlizeValidationError,
+    sequelizeValidationError,
     frontError,
     backError,
     notFound,
     conflictError,
     UnauthorizedError,
-    forbiddenError
+    forbiddenError,
+    catchErrorWithSequelize
 };

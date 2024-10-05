@@ -11,7 +11,7 @@ import { ARRAY, Op, Sequelize } from "sequelize";
 // ========================================
 import Company from "../../models/user/company.model.js";
 import CompanyUser from "../../models/user/companyUser.model.js";
-import { catchError, conflictError, created, frontError, sequlizeValidationError, successOk, successOkWithData, validationError } from "../../utils/responses.js";
+import { catchError, conflictError, created, frontError, sequelizeValidationError, successOk, successOkWithData, validationError } from "../../utils/responses.js";
 import { bodyReqFields, queryReqFields } from "../../utils/requiredFields.js";
 import { convertToLowercase } from "../../utils/utils.js";
 
@@ -93,7 +93,7 @@ export async function updateGlobalListCompanies(req, res) {
         return successOk(res, "Company updated successfully");
     } catch (error) {
         console.log("error while updating the company", error);
-        if (error.name === "SequelizeUniqueConstraintError") return sequlizeValidationError(res, error);
+        if (error.name === "SequelizeUniqueConstraintError") return sequelizeValidationError(res, error);
         return catchError(res, error.message);
     }
 }

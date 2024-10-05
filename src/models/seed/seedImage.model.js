@@ -1,7 +1,7 @@
 import sequelize from '../../config/dbConfig.js';
 import { DataTypes } from 'sequelize';
 
-const ProductImage = sequelize.define('product_image', {
+const SeedImage = sequelize.define('seed_image', {
     uuid: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -16,4 +16,4 @@ const ProductImage = sequelize.define('product_image', {
     timestamps: false
 });
 
-export default ProductImage;
+export default SeedImage;

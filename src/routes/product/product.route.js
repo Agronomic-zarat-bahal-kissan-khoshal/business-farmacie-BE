@@ -2,7 +2,7 @@ import express from "express";
 import * as productCtrl from "../../controllers/product/product.controller.js";
 import upload from "../../config/multer.config.js";
 import verifyToken from "../../middlewares/authMiddleware.js";
-import setProductImgPath from "../../middlewares/multer.middleware.js";
+import { setProductImgPath } from "../../middlewares/multer.middleware.js";
 const router = express.Router();
 
 router.route("/")

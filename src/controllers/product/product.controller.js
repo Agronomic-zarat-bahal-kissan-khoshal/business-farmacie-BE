@@ -3,33 +3,13 @@ import ProductImage from "../../models/product/productImage.model.js";
 import ActiveIngredient from "../../models/product/activeIngredient.model.js";
 import Ingredient from "../../models/product/ingredient.model.js";
 import { bodyReqFields, queryReqFields } from "../../utils/requiredFields.js";
-import { catchError, conflictError, frontError, notFound, sequlizeValidationError, successOk, successOkWithData } from "../../utils/responses.js";
+import { catchError, conflictError, frontError, notFound, sequelizeValidationError, successOk, successOkWithData } from "../../utils/responses.js";
 import { convertToLowercase, getRelativePath } from "../../utils/utils.js";
 import { Sequelize } from "sequelize";
 import sequelize from "../../config/dbConfig.js";
 
 
-const getActiveIngredientsData = (res, active_ingredients) => {
-    let error = false;
-    let response = null;
-    let data = [];
-    for (const ingredient of active_ingredients) {
-        const { ingredient_name, concentration, unit } = ingredient;
-        // CHECK IF INGREDIENT NAME IS MISSING
-        if (!ingredient_name) {
-            error = true;
-            response = frontError(res, "ingredient_name key is missing in object of acitve ingredient in active_ingredients array.", "ingredient_name");
-            break;
-        }
-        const activeIngredient = {
-            ingredient_fk: ingredient_name.toLowerCase(),
-            concentration: concentration || null,
-            unit: unit?.toLowerCase() || null
-        }
-        data.push(activeIngredient);
-    }
-    return { error, response, data };
-}
+
 
 
 
@@ -129,7 +109,7 @@ export async function createProduct(req, res) {
 
 
     } catch (error) {
-        if (error instanceof Sequelize.ValidationError) return sequlizeValidationError(res, error);
+        if (error instanceof Sequelize.ValidationError) return sequelizeValidationError(res, error);
         if (error.name === 'SequelizeDatabaseError') return frontError(res, error.message, "database");
         return catchError(res, error);
     }
@@ -267,7 +247,7 @@ export async function updateProduct(req, res) {
         return successOk(res, "Product updated successfully");
 
     } catch (error) {
-        if (error instanceof Sequelize.ValidationError) return sequlizeValidationError(res, error);
+        if (error instanceof Sequelize.ValidationError) return sequelizeValidationError(res, error);
         if (error.name === 'SequelizeDatabaseError') return frontError(res, error.message, "database");
         return catchError(res, error);
     }
@@ -299,9 +279,38 @@ export async function deleteProductImg(req, res) {
 
         const { imgUid } = req.query;
         await ProductImage.destroy({ where: { uuid: imgUid } })
-        return successOk(res, "Product delete successfully")
+        return successOk(res, "Product image delete successfully")
 
     } catch (error) {
         return catchError(res, error)
     }
+}
+
+
+// ================================================================
+//                     Helper Functions
+// ================================================================
+
+
+
+const getActiveIngredientsData = (res, active_ingredients) => {
+    let error = false;
+    let response = null;
+    let data = [];
+    for (const ingredient of active_ingredients) {
+        const { ingredient_name, concentration, unit } = ingredient;
+        // CHECK IF INGREDIENT NAME IS MISSING
+        if (!ingredient_name) {
+            error = true;
+            response = frontError(res, "ingredient_name key is missing in object of acitve ingredient in active_ingredients array.", "ingredient_name");
+            break;
+        }
+        const activeIngredient = {
+            ingredient_fk: ingredient_name.toLowerCase(),
+            concentration: concentration || null,
+            unit: unit?.toLowerCase() || null
+        }
+        data.push(activeIngredient);
+    }
+    return { error, response, data };
 }

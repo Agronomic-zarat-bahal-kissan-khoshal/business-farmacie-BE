@@ -23,7 +23,7 @@ import {
   successOk,
   successOkWithData,
   UnauthorizedError,
-  sequlizeValidationError,
+  sequelizeValidationError,
   notFound
 } from "../../utils/responses.js";
 
@@ -114,7 +114,7 @@ export async function registerUser(req, res) {
 
     return created(res, "Profile created successfully, we'll contact you soon!");
   } catch (error) {
-    if (error instanceof Sequelize.ValidationError) return sequlizeValidationError(res, error);
+    if (error instanceof Sequelize.ValidationError) return sequelizeValidationError(res, error);
     else return catchError(res, error);
   }
 }

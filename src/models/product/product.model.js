@@ -37,7 +37,7 @@ const Product = sequelize.define('product', {
         type: DataTypes.INTEGER,
         validate: {
             isInt: {
-                msg: "packageWeight must be an integer."
+                msg: "package_weight must be an integer."
             },
         }
     },

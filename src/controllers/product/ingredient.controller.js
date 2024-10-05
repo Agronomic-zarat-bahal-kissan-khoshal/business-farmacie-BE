@@ -1,4 +1,4 @@
-import { catchError, conflictError, created, frontError, sequlizeValidationError, successOk, successOkWithData, validationError } from "../../utils/responses.js";
+import { catchError, conflictError, created, frontError, sequelizeValidationError, successOk, successOkWithData, validationError } from "../../utils/responses.js";
 import Ingredient from "../../models/product/ingredient.model.js";
 import { bodyReqFields, queryReqFields } from "../../utils/requiredFields.js";
 import { Op } from "sequelize";
@@ -80,7 +80,7 @@ export async function updateGlobalListIngredient(req, res) {
         return successOk(res, "Ingredient updated successfully");
     } catch (error) {
         console.log("Error while updating the Ingredient", error);
-        if (error.name === "SequelizeUniqueConstraintError") return sequlizeValidationError(res, error);
+        if (error.name === "SequelizeUniqueConstraintError") return sequelizeValidationError(res, error);
         return catchError(res, error.message);
     }
 }
