@@ -16,7 +16,15 @@ export const FranchiseCatalogProduct = sequelize.define('franchise_catalog_produ
         type: DataTypes.UUID,
         allowNull: false,
     }
-})
+},
+    {
+        indexes: [
+            {
+                unique: true,
+                fields: ['product_fk', 'franchise_fk'],
+            }
+        ]
+    })
 
 // ======================================================
 
@@ -35,7 +43,15 @@ export const FranchiseCatalogSeed = sequelize.define('franchise_catalog_seed', {
         type: DataTypes.UUID,
         allowNull: false,
     }
-})
+},
+    {
+        indexes: [
+            {
+                unique: true,
+                fields: ['seed_fk', 'franchise_fk'],
+            }
+        ]
+    })
 
 
 // ==========================================================

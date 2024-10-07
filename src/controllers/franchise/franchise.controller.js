@@ -219,3 +219,4 @@ export async function franchiseStats(req, res) {
         return catchErrorWithSequelize(res, error);
     }
 }
+
