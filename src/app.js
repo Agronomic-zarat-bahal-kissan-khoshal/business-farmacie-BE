@@ -22,13 +22,14 @@ import { getIPAddress } from "./utils/utils.js";
 import "./models/models.js";
 import authRoutes from "./routes/auth/auth.route.js";
 import productRoutes from "./routes/product/product.route.js";
-// Internal dashboard
-import companyRoutes from "./routes/auth/company.route.js";
-import ingredientRoutes from "./routes/product/ingredient.route.js"
 import seedRoutes from "./routes/seed/seed.route.js"
 import franchiseRoutes from "./routes/franchise/franchise.route.js"
 import franchiseManagerRoutes from "./routes/franchise/franchiseManager.route.js"
 import franchiseCatalogRoutes from "./routes/franchise/franchiseCatalog.route.js"
+import queryRoutes from "./routes/query/query.routes.js"
+// Internal dashboard
+import companyRoutes from "./routes/auth/company.route.js";
+import ingredientRoutes from "./routes/product/ingredient.route.js"
 
 
 // =========================================
@@ -87,6 +88,7 @@ app.use("/api/seed", seedRoutes);
 app.use("/api/franchise", franchiseRoutes)
 app.use("/api/franchise/manager", franchiseManagerRoutes)
 app.use("/api/franchise/subscribe", franchiseCatalogRoutes)
+app.use("/api/query", queryRoutes)
 
 // Internal dashboard
 app.use("/api/company", companyRoutes);
