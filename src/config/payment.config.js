@@ -1,0 +1,1 @@
+export const FRANCHISE_CHARGES = 1000;

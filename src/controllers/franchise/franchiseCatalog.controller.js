@@ -3,7 +3,6 @@ import { catchError, catchErrorWithSequelize, frontError, successOk, successOkWi
 import { queryReqFields, bodyReqFields } from "../../utils/requiredFields.js";
 import Product from "../../models/product/product.model.js";
 import Seed from "../../models/seed/seed.model.js";
-import { ValidationError } from "sequelize";
 
 
 // ================================================================
