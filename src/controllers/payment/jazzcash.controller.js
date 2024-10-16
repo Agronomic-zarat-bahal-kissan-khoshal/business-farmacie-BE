@@ -7,6 +7,7 @@ import { getJazzCredentials } from "../../config/jazzcash.config.js";
 import FarmaciePaymentHistory from "../../models/payment/paymentHistroy.model.js";
 import { FRANCHISE_CHARGES } from "../../config/payment.config.js";
 import { isListContainActiveFranchise, performBulkInquiry, checkPendingPayments, getJazzResponseFromResCode } from "../../utils/payment.util.js";
+import { Op } from "sequelize";
 // =================================================================================
 //                                GLOBAL VARIABLES
 // =================================================================================
@@ -104,4 +105,28 @@ export async function jazzcashMwalletBulkPayment(req, res) {
 
     }
 }
+
+
+// ================================================================
+
+
+export async function jazzcashInquiry(req, res) {
+    let franchises = await Franchise.findAll({
+        attributes: ["uuid", "active", "active_date", "txn_ref_no", "response_code"],
+        where: {
+            txn_ref_no: { [Op.ne]: null }
+        }
+    });
+    if (!franchises || franchises.length === 0) return successOk(res, "No pending payments found");
+    franchises = JSON.parse(JSON.stringify(franchises));
+
+    // PAYMENT INQUIRY
+    const { txnRefNoList, txnRefNoCountObj, txnRefNoUuidsObj } = checkPendingPayments(franchises);
+    if (txnRefNoList.length == 0) return successOk(res, "No pending payments found");    // true if have txn_ref_no but all are rejected.
+
+    const bulkInquiry = await performBulkInquiry(res, txnRefNoList, txnRefNoCountObj, txnRefNoUuidsObj, req.user.uuid);
+    if (bulkInquiry.error) return bulkInquiry.error;
+    if (bulkInquiry.paymentRestored) return successOk(res, "Some already paid payments are restored, Refresh the page.");
+    successOk(res, "Amount against the pending payments is not deducted. Pay to activate franchises.");
+};
 
