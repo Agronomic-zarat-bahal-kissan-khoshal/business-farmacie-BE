@@ -44,7 +44,7 @@ const createdWithData = (res, message, data) => {
 // ======================= error responses ========================
 // ================================================================
 
-// ========================= catchError ===========================
+// ========================= catchErrorWithSequelize ===========================
 const catchErrorWithSequelize = (res, error) => {
     if (error instanceof Sequelize.ValidationError) return sequelizeValidationError(res, error);
     if (error.errors && error.errors[0].errors instanceof Sequelize.ValidationError) return frontError(res, error.errors[0].message)

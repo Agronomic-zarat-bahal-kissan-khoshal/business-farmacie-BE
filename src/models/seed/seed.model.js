@@ -100,6 +100,10 @@ const Seed = sequelize.define('seed', {
             }
         }
     },
+    description: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     price: {
         type: DataTypes.INTEGER,
         validate: {
