@@ -13,11 +13,11 @@ router.post("/regenerate-access-token", authCtrl.regenerateAccessToken);
 
 router.post("/password/update", verifyToken, authCtrl.updatePassword);
 
-router.post("/password/forgot", verifyToken, authCtrl.forgotPassword);
+router.post("/password/forgot", authCtrl.forgotPassword);
 
-router.post("/password/verify-otp", verifyToken, authCtrl.verifyOtp);
+router.post("/password/verify-otp", authCtrl.verifyOtp);
 
-router.post("/password/reset", verifyToken, authCtrl.setNewPassword);
+router.post("/password/reset", authCtrl.setNewPassword);
 
 router.route("/profile")
     .get(verifyToken, authCtrl.getProfile)
