@@ -1,9 +1,7 @@
 // ========================================
 //           LIBRARIES IMPORTS
 // ========================================
-import crypto from "crypto"
-import bcrypt from "bcryptjs";
-import { ARRAY, Op, Sequelize } from "sequelize";
+import { Op } from "sequelize";
 
 
 // ========================================

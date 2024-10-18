@@ -23,7 +23,8 @@ export async function addSeed(req, res) {
         if (min_harvesting_days > max_harvesting_days) return validationError(res, "Min harvesting days must be less than equal to max harvesting days");
 
         // DUPLICATION TEST
-        const seedExist = await Seed.findOne({ where: requiredData })
+        const { seed_variety_name, company_fk, crop_category, crop, package_weight, package_type } = requiredData;
+        const seedExist = await Seed.findOne({ where: { seed_variety_name, company_fk, crop_category, crop, package_weight, package_type } })
         if (seedExist) return conflictError(res, "Seeds already added in global list")
 
         // ADDING SEED

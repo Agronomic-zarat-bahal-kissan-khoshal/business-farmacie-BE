@@ -70,7 +70,7 @@ const createTodayDateWithAddDays = (daysToAdd) => {
 };
 
 
-// ============================ createTodayDateWithAddDays =================================
+// ============================ check31DaysExpiry =================================
 
 
 function check31DaysExpiry(activationDate) {
@@ -97,7 +97,7 @@ function check31DaysExpiry(activationDate) {
 }
 
 
-// ============================ createTodayDateWithAddDays =================================
+// ============================ capitalizeWords =================================
 
 
 const capitalizeWords = (wordString) => {

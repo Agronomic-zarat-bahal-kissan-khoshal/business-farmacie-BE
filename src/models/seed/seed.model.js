@@ -112,7 +112,7 @@ const Seed = sequelize.define('seed', {
             },
         }
     },
-    in_sumulator: {
+    in_simulator: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
     }

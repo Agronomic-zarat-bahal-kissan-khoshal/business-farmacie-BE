@@ -93,7 +93,7 @@ export async function registerUser(req, res) {
       }
     });
 
-    if (user) return validationError(res, "", "This email already registered against company");
+    if (user) return validationError(res, "This email already registered against company", "");
 
     const invalidEmail = validateEmail(email)
     if (invalidEmail) return validationError(res, invalidEmail)
