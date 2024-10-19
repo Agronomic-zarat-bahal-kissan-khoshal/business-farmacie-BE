@@ -30,7 +30,6 @@ import queryRoutes from "./routes/query/query.routes.js"
 import jazzcashRoutes from "./routes/payment/jazzcash.route.js"
 // Internal dashboard
 import companyRoutes from "./routes/auth/company.route.js";
-import ingredientRoutes from "./routes/product/ingredient.route.js"
 
 
 // =========================================
@@ -94,7 +93,6 @@ app.use("/api/payment/jazzcash", jazzcashRoutes)
 
 // Internal dashboard
 app.use("/api/company", companyRoutes);
-app.use("/api/ingredient", ingredientRoutes)
 
 
 
