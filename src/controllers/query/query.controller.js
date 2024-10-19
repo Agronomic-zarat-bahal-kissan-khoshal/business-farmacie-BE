@@ -54,7 +54,6 @@ export async function getCompanyTickets(req, res) {
     }
 };
 
-// FOR BOTH INTERNAL AND EXTERNAL DASHBOARD
 // ========================== getTicketChat ================================
 
 export async function getTicketChat(req, res) {
@@ -155,76 +154,5 @@ export async function newResponseStats(req, res) {
 }
 
 
-// FOR INTERNAL DASHBOARD ONLY
-
-// ========================== getAllTickets ================================
-
-
-export async function getAllTickets(req, res) {
-    try {
-        let tickets = await QueriesTicket.findAll({
-            attributes: { exclude: ['response_viewed'] },
-            order: [
-                ['query_viewed', 'ASC'],
-                ['responded', 'ASC'],
-                ['updatedAt', 'DESC'],
-            ],
-        });
-
-        if (!tickets || tickets.length === 0) return notFound(res, "No tickets found");
-        return successOkWithData(res, "All tickets", tickets);
-    } catch (error) {
-        return catchErrorWithSequelize(res, error);
-    }
-};
-
-// ========================== queryViewed =====================================
-
-
-export async function queryViewed(req, res) {
-    try {
-        const reqFields = ["uuid"];
-        const queryFieldsReq = queryReqFields(req, res, reqFields);
-        if (queryFieldsReq.error) return queryFieldsReq.response;
-
-        const { uuid } = req.query;
-        let ticket = await QueriesTicket.findByPk(uuid);
-        if (!ticket) return notFound(res, "Ticket not found");
-
-        if (!ticket.query_viewed) {
-            ticket.query_viewed = true;
-            await ticket.save();
-        }
-        return successOk(res, "Query viewed");
-    } catch (error) {
-        return catchErrorWithSequelize(res, error);
-    }
-};
-
-
-// ========================== respondToTicket ================================
-
-export async function respondToTicket(req, res) {
-    try {
-        const reqFields = ["uuid", "response"];
-        const bodyFieldsReq = bodyReqFields(req, res, reqFields);
-        if (bodyFieldsReq.error) return bodyFieldsReq.response;
-
-        const { uuid, response } = req.body;
-
-        let ticket = await QueriesTicket.findByPk(uuid);
-        if (!ticket) return notFound(res, "Ticket not found");
-
-        await TicketChat.create({ message: response, ticket_fk: ticket.uuid, is_query: false });
-
-        ticket.responded = true;
-        ticket.response_viewed = false;
-        ticket.query_viewed = true;
-        await ticket.save();
-        return successOk(res, "Ticket responded successfully");
-    } catch (error) {
-        return catchErrorWithSequelize(res, error);
-    }
-}
 
 

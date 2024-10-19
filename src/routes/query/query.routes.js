@@ -9,11 +9,8 @@ router.route("/ticket")
     .delete(verifyToken, queryCtrl.deleteTicket);
 
 router.post("/further", verifyToken, queryCtrl.futherQueryToTicket);
-router.post("/response", verifyToken, queryCtrl.respondToTicket);
 router.get("/ticket-chat", verifyToken, queryCtrl.getTicketChat);
-router.get("/ticket-all", verifyToken, queryCtrl.getAllTickets);
 router.post("/response-viewed", verifyToken, queryCtrl.responseViewed);
-router.post("/viewed", verifyToken, queryCtrl.queryViewed);
 router.get("/stats", verifyToken, queryCtrl.newResponseStats);
 
 export default router;
