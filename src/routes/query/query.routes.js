@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.route("/ticket")
     .post(verifyToken, queryCtrl.createNewQueryTicket)
-    .get(verifyToken, queryCtrl.getCompanyTickets)
     .delete(verifyToken, queryCtrl.deleteTicket);
 
+router.get("/ticket/all", verifyToken, queryCtrl.getCompanyTickets);
 router.post("/further", verifyToken, queryCtrl.futherQueryToTicket);
 router.get("/ticket-chat", verifyToken, queryCtrl.getTicketChat);
 router.post("/response-viewed", verifyToken, queryCtrl.responseViewed);
