@@ -43,7 +43,7 @@ export async function addCompniestoGlobalList(req, res) {
         return created(res, "Company added successfully");
     } catch (error) {
         console.log("error while creating the compnay", error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }
 
@@ -56,7 +56,7 @@ export async function getGlobalListCompanies(req, res) {
         return successOkWithData(res, "Companies fetched successfully", { companies, count });
     } catch (error) {
         console.log("error while getting the companies", error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }
 
@@ -73,7 +73,7 @@ export async function deleteGlobalListCompanies(req, res) {
         return successOk(res, "Company deleted successfully");
     } catch (error) {
         console.log("error while deleting the company", error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }
 
@@ -92,7 +92,7 @@ export async function updateGlobalListCompanies(req, res) {
     } catch (error) {
         console.log("error while updating the company", error);
         if (error.name === "SequelizeUniqueConstraintError") return sequelizeValidationError(res, error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }
 
@@ -126,7 +126,7 @@ export async function verifyCompanyUser(req, res) {
         return successOk(res, "Company verified successfully");
     } catch (error) {
         console.log("error while verifying the company", error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }
 
@@ -137,7 +137,7 @@ export async function getAllCompanyUsers(req, res) {
         return successOkWithData(res, "Company users fetched successfully", { companyUsers, count });
     } catch (error) {
         console.log("error while getting the company users", error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }
 
@@ -152,7 +152,7 @@ export async function deleteCompanyUser(req, res) {
         return created(res, "Company user deleted successfully");
     } catch (error) {
         console.log("error while deleting the company user", error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }
 
@@ -165,6 +165,6 @@ export async function getCompaniesStats(req, res) {
         return successOkWithData(res, "Company stats fetched successfully", { globalListCompanies, registeredCompanies, verifiedCompanies });
     } catch (error) {
         console.log("error while getting the company stats", error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }

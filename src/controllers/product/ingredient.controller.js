@@ -32,7 +32,7 @@ export async function addIngredientsToGlobalList(req, res) {
         return created(res, "Ingredients added successfully");
     } catch (error) {
         console.log("error while creating the compnay", error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }
 
@@ -45,7 +45,7 @@ export async function getGlobalListIngredients(req, res) {
         return successOkWithData(res, "Companies fetched successfully", { ingredients, count });
     } catch (error) {
         console.log("error while getting the companies", error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }
 
@@ -62,7 +62,7 @@ export async function deleteGlobalListIngredient(req, res) {
         return successOk(res, "Ingredient deleted successfully");
     } catch (error) {
         console.log("error while deleting the company", error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }
 
@@ -81,6 +81,6 @@ export async function updateGlobalListIngredient(req, res) {
     } catch (error) {
         console.log("Error while updating the Ingredient", error);
         if (error.name === "SequelizeUniqueConstraintError") return sequelizeValidationError(res, error);
-        return catchError(res, error.message);
+        return catchError(res, error);
     }
 }
