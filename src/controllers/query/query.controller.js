@@ -2,7 +2,6 @@ import QueriesTicket from "../../models/query/queriesTicket.model.js";
 import TicketChat from "../../models/query/TicketChat.model.js";
 import { catchError, catchErrorWithSequelize, conflictError, frontError, notFound, successOk, successOkWithData, validationError } from "../../utils/responses.js";
 import { bodyReqFields, queryReqFields } from "../../utils/requiredFields.js";
-import { json } from "sequelize";
 
 
 // ================================================================

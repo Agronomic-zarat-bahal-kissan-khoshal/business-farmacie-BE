@@ -1,7 +1,6 @@
 import express from "express";
-import * as queryCtrl from "../../controllers/query/query.controllers.js";
+import * as queryCtrl from "../../controllers/query/query.controller.js";
 import verifyToken from "../../middlewares/authMiddleware.js";
-import { QueryError } from "sequelize";
 const router = express.Router();
 
 router.route("/ticket")
