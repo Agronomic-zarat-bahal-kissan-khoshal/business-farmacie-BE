@@ -20,7 +20,7 @@ export async function addSeed(req, res) {
         requiredData.company_fk = req.user.company_fk;
 
         const { min_harvesting_days, max_harvesting_days } = requiredData;
-        if (min_harvesting_days > max_harvesting_days) return validationError(res, "Min harvesting days must be less than equal to max harvesting days");
+        if (parseInt(min_harvesting_days) > parseInt(max_harvesting_days)) return validationError(res, "Min harvesting days must be less than equal to max harvesting days");
 
         // DUPLICATION TEST
         const { seed_variety_name, company_fk, crop_category, crop, package_weight, package_type } = requiredData;
@@ -144,7 +144,9 @@ export async function updateSeed(req, res) {
         let requiredData = convertToLowercase(req.body);
         requiredData.company_fk = req.user.company_fk;       // This insures no one can change the company.
         // Harvesting days validations
-        const { min_harvesting_days, max_harvesting_days } = requiredData;
+        let { min_harvesting_days, max_harvesting_days } = requiredData;
+        min_harvesting_days = parseInt(min_harvesting_days);
+        max_harvesting_days = parseInt(max_harvesting_days);
         if (min_harvesting_days && max_harvesting_days && min_harvesting_days > max_harvesting_days) return validationError(res, "Min harvesting days must be less than max harvesting days");
         if (min_harvesting_days && seed.max_harvesting_days < min_harvesting_days) return validationError(res, "Min harvesting days must be less than max harvesting days");
         if (max_harvesting_days && seed.min_harvesting_days > max_harvesting_days) return validationError(res, "Max harvesting days must be greater than min harvesting days");

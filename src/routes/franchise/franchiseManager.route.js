@@ -10,4 +10,5 @@ router.route("/")
     .patch(verifyToken, franchiseManagerCtrl.updateFranchiseManager)
 
 router.get('/all', verifyToken, franchiseManagerCtrl.getFranchiseManagers)
+router.get('/stats', verifyToken, franchiseManagerCtrl.franchiseManagerStats)
 export default router;

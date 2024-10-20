@@ -88,3 +88,15 @@ export async function updateFranchiseManager(req, res) {
         return catchErrorWithSequelize(res, error);
     }
 }
+
+// ========================== franchiseManagerStats ================================
+
+export async function franchiseManagerStats(req, res) {
+    try {
+        console.log("req.user.company_fk", req.user.company_fk)
+        let franchiseManagersCount = await FranchiseManager.count({ where: { company_fk: req.user.company_fk } });
+        return successOkWithData(res, "All Franchise Managers", { franchiseManagersCount });
+    } catch (error) {
+        return catchError(res, error);
+    }
+}

@@ -115,7 +115,11 @@ const Seed = sequelize.define('seed', {
     in_simulator: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
-    }
+    },
+    trial_count: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
 
 })
 
