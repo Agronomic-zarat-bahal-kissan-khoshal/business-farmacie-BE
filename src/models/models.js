@@ -24,6 +24,7 @@ import FarmaciePaymentHistory from "./payment/paymentHistroy.model.js";
 // await QueriesTicket.sync({ force: true }); // Caution: Data will be lost
 // await TicketChat.sync({ force: true }); // Caution: Data will be lost
 // await FranchiseCatalogProduct.sync({ force: true }); // Caution: Data will be lost
+// await FranchiseCatalogSeed.sync({ force: true }); // Caution: Data will be lost
 
 // Using alter to update the table structure without losing data
 if (nodeEnv === "local") {

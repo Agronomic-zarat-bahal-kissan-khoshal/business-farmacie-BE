@@ -15,7 +15,10 @@ export async function subscribeProduct(req, res) {
         const bodyFieldsReq = bodyReqFields(req, res, reqFields);
         if (bodyFieldsReq.error) return bodyFieldsReq.response;
         const { product_fk, franchise_fk } = req.body;
-        await FranchiseCatalogProduct.create({ product_fk, franchise_fk });
+        const product = await Product.findByPk(product_fk, { attributes: ["price"] });
+        if (!product) return frontError(res, "Invalid product_fk, product not found.", "product_fk");
+        if (!product.price) return validationError(res, "Product price is not set. Kindly upate the product price.");
+        await FranchiseCatalogProduct.create({ product_fk, franchise_fk, price: product.price });
         return successOk(res, "Product subscribed successfully");
 
     } catch (error) {
@@ -34,7 +37,10 @@ export async function subscribeSeed(req, res) {
         const bodyFieldsReq = bodyReqFields(req, res, reqFields);
         if (bodyFieldsReq.error) return bodyFieldsReq.response;
         const { seed_fk, franchise_fk } = req.body;
-        await FranchiseCatalogSeed.create({ seed_fk, franchise_fk });
+        const seed = await Seed.findByPk(seed_fk, { attributes: ["price"] });
+        if (!seed) return frontError(res, "Invalid seed_fk, seed not found.", "seed_fk");
+        if (!seed.price) return validationError(res, "Seed price is not set. Kindly upate the seed price.");
+        await FranchiseCatalogSeed.create({ seed_fk, franchise_fk, price: seed.price });
         return successOk(res, "Seed subscribed successfully");
 
     } catch (error) {
@@ -161,7 +167,7 @@ export async function getSubscribedSeeds(req, res) {
 
 export async function unsubscribeProduct(req, res) {
     try {
-        const reqFields = ["uuid", "franchise_fk"];
+        const reqFields = ["uuid"];
         const queryFieldsReq = queryReqFields(req, res, reqFields);
         if (queryFieldsReq.error) return queryFieldsReq.response;
         const { uuid } = req.query;
@@ -178,7 +184,7 @@ export async function unsubscribeProduct(req, res) {
 
 export async function unsubscribeSeed(req, res) {
     try {
-        const reqFields = ["uuid", "franchise_fk"];
+        const reqFields = ["uuid"];
         const queryFieldsReq = queryReqFields(req, res, reqFields);
         if (queryFieldsReq.error) return queryFieldsReq.response;
         const { uuid } = req.query;

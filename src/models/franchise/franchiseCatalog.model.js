@@ -15,6 +15,14 @@ export const FranchiseCatalogProduct = sequelize.define('franchise_catalog_produ
     franchise_fk: {
         type: DataTypes.UUID,
         allowNull: false,
+    },
+    price: {
+        type: DataTypes.INTEGER,
+        validate: {
+            isInt: {
+                msg: "price must be an integer."
+            },
+        }
     }
 },
     {
@@ -42,6 +50,14 @@ export const FranchiseCatalogSeed = sequelize.define('franchise_catalog_seed', {
     franchise_fk: {
         type: DataTypes.UUID,
         allowNull: false,
+    },
+    price: {
+        type: DataTypes.INTEGER,
+        validate: {
+            isInt: {
+                msg: "price must be an integer."
+            },
+        }
     }
 },
     {
