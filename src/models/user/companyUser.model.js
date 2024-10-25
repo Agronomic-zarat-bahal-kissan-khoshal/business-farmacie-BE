@@ -2,7 +2,7 @@ import sequelize from '../../config/dbConfig.js';
 import { DataTypes } from 'sequelize';
 
 // Define a schema for the user with email and password fields
-const CompanyUser = sequelize.define('compnay_user', {
+const CompanyUser = sequelize.define('company_user', {
     uuid: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,

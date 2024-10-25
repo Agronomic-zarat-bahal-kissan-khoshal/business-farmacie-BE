@@ -23,13 +23,13 @@ import "./models/models.js";
 import authRoutes from "./routes/auth/auth.route.js";
 import productRoutes from "./routes/product/product.route.js";
 import seedRoutes from "./routes/seed/seed.route.js"
+import seedTrialRoutes from "./routes/seedTrial/seedTrial.route.js"
 import franchiseRoutes from "./routes/franchise/franchise.route.js"
 import franchiseManagerRoutes from "./routes/franchise/franchiseManager.route.js"
 import franchiseCatalogRoutes from "./routes/franchise/franchiseCatalog.route.js"
 import queryRoutes from "./routes/query/query.routes.js"
 import jazzcashRoutes from "./routes/payment/jazzcash.route.js"
-// Internal dashboard
-import companyRoutes from "./routes/auth/company.route.js";
+
 
 
 // =========================================
@@ -85,14 +85,13 @@ app.get('/', (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/seed", seedRoutes);
+app.use("/api/seed/trial", seedTrialRoutes);
 app.use("/api/franchise", franchiseRoutes)
 app.use("/api/franchise/manager", franchiseManagerRoutes)
 app.use("/api/franchise/subscribe", franchiseCatalogRoutes)
 app.use("/api/query", queryRoutes)
 app.use("/api/payment/jazzcash", jazzcashRoutes)
 
-// Internal dashboard
-app.use("/api/company", companyRoutes);
 
 
 
