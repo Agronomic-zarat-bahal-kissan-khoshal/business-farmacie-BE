@@ -16,7 +16,7 @@ export default async function verifyToken(req, res, next) {
 
     const companyUser = await CompanyUser.findByPk(decoded.userUid, { attributes: ['uuid', 'email', 'verified', 'company_fk'] });
     if (!companyUser) return UnauthorizedError(res, "Invalid token");
-    if (!companyUser.verified) return forbiddenError(res, "Compnay profile is not verified yet");
+    if (!companyUser.verified) return forbiddenError(res, "Company profile is not verified yet");
     req.userUid = decoded.userUid;
     req.user = companyUser.dataValues;
     next();
