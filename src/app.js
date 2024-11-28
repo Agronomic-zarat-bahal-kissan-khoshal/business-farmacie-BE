@@ -29,6 +29,7 @@ import franchiseManagerRoutes from "./routes/franchise/franchiseManager.route.js
 import franchiseCatalogRoutes from "./routes/franchise/franchiseCatalog.route.js"
 import queryRoutes from "./routes/query/query.routes.js"
 import jazzcashRoutes from "./routes/payment/jazzcash.route.js"
+import { domain } from "./config/initialConfig.js";
 
 
 
