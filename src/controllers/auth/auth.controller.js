@@ -24,7 +24,8 @@ import {
   successOkWithData,
   UnauthorizedError,
   sequelizeValidationError,
-  notFound
+  notFound,
+  forbiddenError
 } from "../../utils/responses.js";
 
 
@@ -138,6 +139,11 @@ export async function loginUser(req, res) {
     const isMatch = await comparePassword(password, user.password)
     if (!isMatch) {
       return validationError(res, "Invalid email or password");
+    }
+
+    // Compare passwords
+    if (!user.verified) {
+      return forbiddenError(res, "Profile is not verified yet. Contact AGRONOMICS for verification.");
     }
 
     // Generate tokens
