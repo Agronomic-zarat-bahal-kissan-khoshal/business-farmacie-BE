@@ -70,7 +70,7 @@ export async function getProductsToSubscribe(req, res) {
                 product.subscribed = false;
             }
         });
-        return successOkWithData(res, products);
+        return successOkWithData(res, "Data fetched successfully.", products);
 
     } catch (error) {
         console.log("========= error =======: ", error)
