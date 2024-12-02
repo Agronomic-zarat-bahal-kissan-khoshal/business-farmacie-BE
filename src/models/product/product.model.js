@@ -67,7 +67,7 @@ const Product = sequelize.define('product', {
         }
     },
     description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     verified: {
         type: DataTypes.BOOLEAN,

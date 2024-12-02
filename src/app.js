@@ -30,6 +30,7 @@ import franchiseCatalogRoutes from "./routes/franchise/franchiseCatalog.route.js
 import queryRoutes from "./routes/query/query.routes.js"
 import jazzcashRoutes from "./routes/payment/jazzcash.route.js"
 import { domain } from "./config/initialConfig.js";
+import ingredientRoutes from "./routes/ingredient/ingredient.route.js";
 
 
 
@@ -92,7 +93,7 @@ app.use("/api/franchise/manager", franchiseManagerRoutes)
 app.use("/api/franchise/subscribe", franchiseCatalogRoutes)
 app.use("/api/query", queryRoutes)
 app.use("/api/payment/jazzcash", jazzcashRoutes)
-
+app.use("/api/ingredient", ingredientRoutes);
 
 
 
