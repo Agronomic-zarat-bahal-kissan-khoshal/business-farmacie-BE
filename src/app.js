@@ -12,6 +12,7 @@ import morgan from "morgan";
 import os from "os"
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { domain } from "./config/initialConfig.js";
 
 // =========================================
 //             Code Import
@@ -29,7 +30,7 @@ import franchiseManagerRoutes from "./routes/franchise/franchiseManager.route.js
 import franchiseCatalogRoutes from "./routes/franchise/franchiseCatalog.route.js"
 import queryRoutes from "./routes/query/query.routes.js"
 import jazzcashRoutes from "./routes/payment/jazzcash.route.js"
-import { domain } from "./config/initialConfig.js";
+import cropStagesRoutes from "./routes/crop/cropStage.route.js"
 import ingredientRoutes from "./routes/ingredient/ingredient.route.js";
 
 
@@ -93,6 +94,7 @@ app.use("/api/franchise/manager", franchiseManagerRoutes)
 app.use("/api/franchise/subscribe", franchiseCatalogRoutes)
 app.use("/api/query", queryRoutes)
 app.use("/api/payment/jazzcash", jazzcashRoutes)
+app.use("/api/crop/stages", cropStagesRoutes);
 app.use("/api/ingredient", ingredientRoutes);
 
 
