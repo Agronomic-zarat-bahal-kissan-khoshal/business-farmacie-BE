@@ -19,7 +19,7 @@ export async function getCropStages(req, res) {
             attributes: ["uuid", "stage", "sub_stage", "bbch_scale"],
             order: [["bbch_scale", "ASC"]]
         })
-        return successOkWithData(res, cropStages)
+        return successOkWithData(res, "Data fetched successfully.", cropStages)
     } catch (error) {
         return catchError(res, error)
     }

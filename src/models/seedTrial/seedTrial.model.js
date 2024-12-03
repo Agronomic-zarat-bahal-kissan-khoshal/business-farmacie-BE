@@ -45,7 +45,6 @@ const SeedTrial = sequelize.define('seed_trial', {
     },
     estimated_yield: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         validate: {
             isInt: {
                 msg: "Estimated yield must cotain an integer value."

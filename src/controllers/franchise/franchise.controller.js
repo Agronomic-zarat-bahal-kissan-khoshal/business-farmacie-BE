@@ -82,7 +82,7 @@ export async function getSingleFranchise(req, res) {
 export async function getFranchises(req, res) {
     try {
         let franchises = await Franchise.findAll({
-            attributes: ['uuid', 'address', 'province', 'district', 'tehsil', 'active', 'active_date'],
+            attributes: ['uuid', 'franchise_name', 'address', 'province', 'district', 'tehsil', 'active', 'active_date'],
             include: [
                 {
                     required: false,
