@@ -21,7 +21,6 @@ const SeedTrial = sequelize.define('seed_trial', {
     },
     min_irrigation: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         validate: {
             isInt: {
                 msg: "Min irrigation in milimiter must cotain an integer value."
@@ -30,10 +29,17 @@ const SeedTrial = sequelize.define('seed_trial', {
     },
     max_irrigation: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         validate: {
             isInt: {
                 msg: "Max irrigation in milimiter must cotain an integer value."
+            }
+        }
+    },
+    water_requirement_per_day: {
+        type: DataTypes.FLOAT,
+        validate: {
+            isInt: {
+                msg: "Water Requirement Per Day in milimiter must contain a float value."
             }
         }
     },

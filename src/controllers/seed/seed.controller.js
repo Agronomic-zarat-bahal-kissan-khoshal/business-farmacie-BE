@@ -77,7 +77,7 @@ export async function getSingleSeed(req, res) {
 export async function getSeeds(req, res) {
     try {
         const products = await Seed.findAll({
-            attributes: ['uuid', 'seed_variety_name', 'company_fk', 'crop_category', 'crop'],
+            attributes: ['uuid', 'seed_variety_name', 'company_fk', 'crop_category', 'crop', "trial_count"],
             where: {
                 company_fk: req.user.company_fk
             }
