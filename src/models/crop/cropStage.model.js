@@ -1,7 +1,7 @@
-import sequelize from "../../config/dbConfig.js";
+import sequelize, { sequelizeMW } from "../../config/dbConfig.js";
 import { DataTypes } from "sequelize";
 
-const CropStage = sequelize.define("crop_stage", {
+const CropStage = sequelizeMW.define("crop_stage", {
     uuid: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -44,6 +44,7 @@ const CropStage = sequelize.define("crop_stage", {
             fields: ['sub_stage', 'crop_fk'],
         },
     ],
+    schema: "crop",
 });
 
 

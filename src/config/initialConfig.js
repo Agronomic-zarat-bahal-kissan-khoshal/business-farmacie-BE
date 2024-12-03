@@ -13,6 +13,7 @@ const nodeEnv = process.env.NODE_ENV || "local";
 // ==========================================================
 if (!process.env.DATABASE_URL) throw new Error("Missing DATABASE_URL in environment env file");
 if (!process.env.DATABASE_NAME) throw new Error("Missing DATABASE_NAME in environment env file");
+if (!process.env.DATABASE_NAME_MW) throw new Error("Missing DATABASE_NAME_MW in environment env file");
 if (!process.env.PORT) throw new Error("Missing PORT in environment env file");
 if (!process.env.JWT_SECRET_KEY) throw new Error("Missing JWT_SECRET_KEY in environment env file");
 if (!process.env.EMAIL_PASS) throw new Error("Missing EMAIL_PASS in environment env file email will not work properly");
@@ -28,6 +29,7 @@ if (!process.env.EMAIL_PASS) throw new Error("Missing EMAIL_PASS in environment"
 // ==========================================================
 const port = process.env.PORT;
 const dbUrl = process.env.DATABASE_URL + process.env.DATABASE_NAME;
+const dbUrlMW = process.env.DATABASE_URL + process.env.DATABASE_NAME_MW;
 const jwtSecret = process.env.JWT_SECRET_KEY;
 const emailPass = process.env.EMAIL_PASS;
 const domain = nodeEnv === "local" ? `http://${getIPAddress()}:${port}` : process.env.DOMAIN;
@@ -43,6 +45,7 @@ export {
     port,
     jwtSecret,
     dbUrl,
+    dbUrlMW,
     emailPass,
     domain,
     serviceEmail,

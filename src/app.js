@@ -74,7 +74,7 @@ app.use(express.json());
 // Convert import.meta.url to a file path
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use('/static', express.static(path.join(__dirname, '..', 'static')));
+app.use('/static', express.static(path.join(__dirname, '../../', 'static')));
 
 // =========================================
 //            Routes
