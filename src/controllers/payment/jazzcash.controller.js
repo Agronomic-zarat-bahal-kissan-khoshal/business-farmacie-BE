@@ -84,7 +84,29 @@ export async function jazzcashMwalletBulkPayment(req, res) {
         // IF PAYMENT NOT SUCCESSFUL 
         if (jazzResponse.pp_ResponseCode != "000" && jazzResponse.pp_ResponseCode != "121") {
             await Franchise.update({ response_code: jazzResponse.pp_ResponseCode }, { where: { uuid: franchiseUuidList } });
-            return getJazzResponseFromResCode(jazzResponse);
+
+            // INVALID MERCHANT CREADENTIALS
+            if (jazzResponse.pp_ResponseCode == '101') return backError(res, "Merchant creadentials are invalid, Backend error");
+            // INVALID VALUE OF SOME VARIABLE IN PAYLOAD
+            if (jazzResponse.pp_ResponseCode == '110') return backError(res, jazzResponse.pp_ResponseMessage);
+            // INVALID HASH RECEIVED
+            if (jazzResponse.pp_ResponseCode == '115') return backError(res, jazzResponse.pp_ResponseMessage);
+            // INVALID TRANSACTION OR MISUSE OF CARD BY SOMEONE ELSE OR FRAUD
+            if (jazzResponse.pp_ResponseCode == '409') return validationError(res, "Error while processing the transaction, Please try again later");
+            // REQUEST REJECTED
+            if (jazzResponse.pp_ResponseCode == '430') return validationError(res, "Your request rejected by the jazzCash, Please try again later");
+            // SERVER FAILED or JAZZCASH BUSY
+            if (jazzResponse.pp_ResponseCode == '431') return validationError(res, "JazzCash is down, Please try again later");
+            // TRANSACTION FAILED
+            if (jazzResponse.pp_ResponseCode == '999') return validationError(res, "Transaction request cancelled.");
+
+            // PENDING STATUS
+            if (jazzResponse.pp_ResponseCode == '124' || jazzResponse.pp_ResponseCode == '157') return res.status(202).send({ "message": "Transaction pending, Accept the payment request and recheck the status." });
+            if (jazzResponse.pp_ResponseCode == "58") return res.status(202).send({ "message": "Transaction timed out, Please recheck the status in a while." });
+            if (jazzResponse.pp_ResponseCode == "432") return res.status(202).send({ "message": "Server is busy, Please recheck the status in a while." });
+
+            // OTHER RESPONSE CODES
+            return validationError(res, jazzResponse.pp_ResponseMessage);
         }
 
         // IF PAYMENT SUCCESSFUL
