@@ -13,7 +13,7 @@ import sequelize from "../../config/dbConfig.js";
 
 export async function addSeedTrialAndDate(req, res) {
     try {
-        const reqFields = ["seed_fk", "seed_variety", "sowing_date", "tehsil", "city", "estimated_yield", "seed_trial_form"];
+        const reqFields = ["seed_fk", "seed_variety", "sowing_date", "tehsil", "lat", "lon", "estimated_yield", "seed_trial_form"];
         const bodyFieldsReq = bodyReqFields(req, res, reqFields);
         if (bodyFieldsReq.error) return bodyFieldsReq.response;
 

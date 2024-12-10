@@ -25,6 +25,7 @@ import authRoutes from "./routes/auth/auth.route.js";
 import productRoutes from "./routes/product/product.route.js";
 import seedRoutes from "./routes/seed/seed.route.js"
 import seedTrialRoutes from "./routes/seedTrial/seedTrial.route.js"
+import cropRoutes from "./routes/crop/crop.route.js"
 import franchiseRoutes from "./routes/franchise/franchise.route.js"
 import franchiseManagerRoutes from "./routes/franchise/franchiseManager.route.js"
 import franchiseCatalogRoutes from "./routes/franchise/franchiseCatalog.route.js"
@@ -89,6 +90,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/seed", seedRoutes);
 app.use("/api/seed/trial", seedTrialRoutes);
+app.use("/api/crop", cropRoutes);
 app.use("/api/franchise", franchiseRoutes)
 app.use("/api/franchise/manager", franchiseManagerRoutes)
 app.use("/api/franchise/subscribe", franchiseCatalogRoutes)

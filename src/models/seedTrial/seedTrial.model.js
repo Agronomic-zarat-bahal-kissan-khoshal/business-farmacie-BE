@@ -15,8 +15,12 @@ const SeedTrial = sequelize.define('seed_trial', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    city: {
-        type: DataTypes.STRING,
+    lat: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    lon: {
+        type: DataTypes.FLOAT,
         allowNull: false,
     },
     min_irrigation: {
@@ -44,7 +48,7 @@ const SeedTrial = sequelize.define('seed_trial', {
         }
     },
     estimated_yield: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         validate: {
             isInt: {
                 msg: "Estimated yield must cotain an integer value."
