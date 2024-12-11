@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 
 function generateJazzcashRefNo() {
     let ref_no = uuidv4();
-    const ref_length = Math.floor((Math.random() * 5) + 14); // Random length between 15 to 20 to avoid the pp_secureHash error same length of txn_ref_no.
+    const ref_length = Math.floor((Math.random() * 5) + 12); // Random length between 15 to 20 to avoid the pp_secureHash error same length of txn_ref_no.
     ref_no = ref_no.replace(/-/g, "").slice(0, ref_length);
     return `JC${ref_no}`;
 }
