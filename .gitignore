@@ -51,6 +51,3 @@ Thumbs.db
 # static files
 public/
 static/
-
-# Environment Config Files
-ecosystem.config.cjs
