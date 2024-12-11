@@ -10,13 +10,10 @@ module.exports = {
             NODE_ENV: "production",
 
             PORT: 7004,
-            // DATABASE_URL: 'postgresql://postgres:greenage@192.168.100.17:5432/',
-            DATABASE_URL: 'postgresql://postgres:greenage@localhost:5433/',
-            // DATABASE_NAME: 'test-farmacie',
-            // DATABASE_NAME_MW: 'moin_weather',
-
-            DATABASE_NAME: 'test_farmacie',
+            DATABASE_URL: 'postgresql://postgres:greenage@192.168.100.17:5432/',
+            DATABASE_NAME: 'test-farmacie',
             DATABASE_NAME_MW: 'moin_weather',
+
 
             DOMAIN: 'https://admin.agronomics.pk',
             JWT_SECRET_KEY: 'your_jwt_secrect_key_if_uisng_jwt_token_authenticatiosdfasdfn',
@@ -24,7 +21,6 @@ module.exports = {
 
             EMAIL: 'moindjango@gmail.com',
             EMAIL_PASS: 'rzxz ohbg xxfv wlzc',
-
 
 
             JAZZCASH_MERCHANT_ID: '89798745',
