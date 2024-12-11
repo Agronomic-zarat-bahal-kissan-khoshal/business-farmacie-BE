@@ -16,7 +16,7 @@ import { comparePassword, hashPassword, validatePassword } from "../../utils/pas
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../../utils/jwtTokenGenerator.js"
 import { sendOTPEmail } from "../../utils/sendEmailUtils.js";
 import {
-  created,
+  created, 
   frontError,
   catchError,
   validationError,

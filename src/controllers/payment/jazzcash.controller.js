@@ -2,7 +2,7 @@ import Franchise from "../../models/franchise/franchise.model.js";
 import { catchError, catchErrorWithSequelize, conflictError, frontError, notFound, successOk, successOkWithData, validationError } from "../../utils/responses.js";
 import { bodyReqFields, queryReqFields } from "../../utils/requiredFields.js";
 import { check31DaysExpiry, convertToLowercase } from "../../utils/utils.js";
-import { generateRefNo, INQUIRY, MWALLET } from "../../utils/jazzcash.js";
+import { generateJazzcashRefNo, INQUIRY, MWALLET } from "../../utils/jazzcash.js";
 import { getJazzCredentials } from "../../config/jazzcash.config.js";
 import FarmaciePaymentHistory from "../../models/payment/paymentHistroy.model.js";
 import { FRANCHISE_CHARGES } from "../../config/payment.config.js";
@@ -57,7 +57,7 @@ export async function jazzcashMwalletBulkPayment(req, res) {
 
         // ELSE CONTINUE TO PAYMENT REQUEST
         // GENERATE REF_NO
-        const newRefNo = generateRefNo();
+        const newRefNo = generateJazzcashRefNo();
 
 
         // UPDATE FRANCHISES WITH NEW REF NO FOR FUTURE UNSUCCESSFUL TRACK
