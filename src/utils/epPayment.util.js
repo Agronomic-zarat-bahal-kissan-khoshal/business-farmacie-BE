@@ -129,7 +129,7 @@ const callEasypaisaInquiry = async (txnRefNo) => {
     } else
       return {
         success: false,
-        response: { message: "Payment not completed", details: response },
+        response: response,
         error: false,
       };
   } catch (error) {

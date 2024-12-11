@@ -47,25 +47,24 @@ export async function easypaisaMwalletBulkPayment(req, res) {
   franchises = JSON.parse(JSON.stringify(franchises));
   if (franchises.length != franchiseUuidList.length) return validationError(res, "Some franchises not exist in the selected list, Refresh and try again.")
 
-      franchises = JSON.parse(JSON.stringify(franchises));
-      if (franchises.length !== franchiseUuidList.length) {
-          return validationError(res, "Some franchises do not exist. Refresh and try again.");
-      }
+    //   franchises = JSON.parse(JSON.stringify(franchises));
+    //   if (franchises.length !== franchiseUuidList.length) {
+    //       return validationError(res, "Some franchises do not exist. Refresh and try again.");
+    //   }
 
       // Check active status
       const franchiseActive = isListContainActiveFranchise(res, franchises);
       if (franchiseActive) return franchiseActive;
 
       // Check pending payments
-      const { txnRefNoList, txnRefNoCountObj, txnRefNoUuidsObj } = epCheckPendingPayments(franchises);
-      if (txnRefNoList.length > 0) {
-        console.log("req.user:=======", req.user);
-          const bulkInquiry = await epPerformBulkInquiry(res, txnRefNoList, txnRefNoCountObj, txnRefNoUuidsObj, req.user.uuid);
-          if (bulkInquiry.error) return bulkInquiry.error;
-          if (bulkInquiry.paymentRestored) {
-              return validationError(res, "Some payments are already paid and restored. Refresh and try again.");
-          }
-      }
+    //   const { txnRefNoList, txnRefNoCountObj, txnRefNoUuidsObj } = epCheckPendingPayments(franchises);
+    //   if (txnRefNoList.length > 0) {
+    //       const bulkInquiry = await epPerformBulkInquiry(res, txnRefNoList, txnRefNoCountObj, txnRefNoUuidsObj, req.user.uuid);
+    //       if (bulkInquiry.error) return bulkInquiry.error;
+    //       if (bulkInquiry.paymentRestored) {
+    //           return validationError(res, "Some payments are already paid and restored. Refresh and try again.");
+    //       }
+    //   }
 
       // Generate a new reference number
       const newRefNo = generateEasypaisaRefNo();
@@ -79,23 +78,22 @@ export async function easypaisaMwalletBulkPayment(req, res) {
       // Perform Easypaisa MWallet payment
       const mwalletData = await epPerformMwallet(newRefNo, EPMWALLET, FRANCHISE_CHARGES, phone, email);
 
-      // Handle Easypaisa response
+      // Payment is not successful, Handle Easypaisa response
       if (mwalletData.responseCode !== "0000") {
-        console.log("Mwallet Response Data:=======", mwalletData);
 
         await Franchise.update({ response_code: mwalletData.responseCode }, { where: { uuid: franchiseUuidList } });
           return getEasypaisaResponseFromResCode(mwalletData, res);
       }
 
-      // Mark franchises as active and log payment
+      // Payment successful, Mark franchises as active and log payment
       await Franchise.update(
           { txn_ref_no: null, active: true, active_date: new Date() },
           { where: { uuid: franchiseUuidList } }
       );
 
       await FarmaciePaymentHistory.create({
-          retrival_ref_no: mwalletData.pp_RetreivalReferenceNo,
-          payment_method: "MA",
+          retrival_ref_no: mwalletData.transactionId,
+          payment_method: "easypaisa mwallet",
           base_price: FRANCHISE_CHARGES,
           quantity: franchiseUuidList.length,
           franchises: franchiseUuidList,
