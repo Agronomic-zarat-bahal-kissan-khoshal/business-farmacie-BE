@@ -77,7 +77,10 @@ const Product = sequelize.define('product', {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
-}
+},
+    {
+        underscored: true
+    }
 )
 
 export default Product;

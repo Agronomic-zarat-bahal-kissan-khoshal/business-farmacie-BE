@@ -156,7 +156,7 @@ export async function getSingleProduct(req, res) {
                     attributes: ['ingredient_fk', 'concentration', 'unit'],
                 }
             ],
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            attributes: { exclude: ['created_at', 'updated_at'] },
             where: {
                 uuid: productUid,
             }
